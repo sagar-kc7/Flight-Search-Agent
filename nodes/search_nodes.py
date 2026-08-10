@@ -1,7 +1,7 @@
 from state import FlightSearchState
 from tools.serpapi_source import search_flights_serpapi
-from tools.mock_source import search_flights_mock
-
+from tools.flightapi_source import search_flights_flightapi
+import os
 
 def search_serpapi_node(state: FlightSearchState) -> dict:
     """Real source (SerpApi Google Flights). On failure, record the error
@@ -16,26 +16,15 @@ def search_serpapi_node(state: FlightSearchState) -> dict:
     except Exception as e:
         return {"errors": [f"serpapi: {e}"]}
 
-
 def search_site_b_node(state: FlightSearchState) -> dict:
-    """Placeholder second source (mock). Swap for a real scraper later."""
+    """Real source: FlightAPI.io"""
     try:
-        results = search_flights_mock(
-            "site_b", state["origin"], state["destination"],
-            state["departure_date"], state.get("return_date"),
+        results = search_flights_flightapi(
+            api_key=os.environ["FLIGHTAPI_KEY"],
+            origin=state["origin"],
+            destination=state["destination"],
+            departure_date=state["departure_date"],
         )
         return {"raw_results": results}
     except Exception as e:
-        return {"errors": [f"site_b: {e}"]}
-
-
-def search_site_c_node(state: FlightSearchState) -> dict:
-    """Placeholder third source (mock). Swap for a real scraper later."""
-    try:
-        results = search_flights_mock(
-            "site_c", state["origin"], state["destination"],
-            state["departure_date"], state.get("return_date"),
-        )
-        return {"raw_results": results}
-    except Exception as e:
-        return {"errors": [f"site_c: {e}"]}
+        return {"errors": [f"flightapi: {e}"]}
