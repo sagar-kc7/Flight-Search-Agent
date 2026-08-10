@@ -12,5 +12,6 @@ def approval_node(state: FlightSearchState) -> dict:
         return {"approved": False}
 
     print(f"\nBest deal found: {deal['price']} {deal['currency']} on {deal['airline']} (source: {deal['source']})")
+    print(f"Reason: {deal.get('reason', 'N/A')}")
     answer = input("Send this deal via email? [y/n]: ").strip().lower()
     return {"approved": answer == "y"}
