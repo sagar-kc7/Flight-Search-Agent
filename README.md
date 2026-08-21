@@ -1,4 +1,4 @@
-# Flight Price Agent
+# Flight Price Agent - LangGraph
 
 A LangGraph agent that searches flight prices across multiple real sources,
 picks the best deal, asks for your approval, and emails it to you.
